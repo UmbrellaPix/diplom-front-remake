@@ -2,26 +2,40 @@
   <div class="header">
     <div class="header_section">
       <div class="header_item header_logo">
-        UmbrellaPix
+        UmbrellaPix©
       </div>
       <div class="header_item header_button">
-        <router-link to="/">Auth</router-link>
+        <router-link to="/create-task">Добавить задачу</router-link>
       </div>
       <div class="header_item header_button">
-        <router-link to="/about">About</router-link>
+        <router-link to="/my-tasks">Задачи на выполнение</router-link>
+      </div>
+      <div class="header_item header_button">
+        <router-link to="/completed-tasks">Выполненные задачи</router-link>
+      </div>
+      <div class="header_item header_button">
+        <router-link to="/history-created-tasks">История созданных задач</router-link>
       </div>
     </div>
     <div class="header_section">
       <div class="header_item header_button">
-        <a href="#">Настройки</a>
+        <SettingsForm />
       </div>
       <div class="header_item header_button">
-        <a href="#">Войти</a>
+        <router-link to="#">Выйти</router-link>
       </div>
     </div>
   </div>
-  <router-view/>
+  <div class="page">
+    <router-view/>
+  </div>
 </template>
+
+<script setup>
+import SettingsForm from './components/SettingsForm.vue'
+
+
+</script>
 
 <style>
 #app {
@@ -49,10 +63,13 @@ a{
  color: white;
  text-decoration: none; 
 }
+.page{
+  height: 10%;
+}
 .header{
   display: flex;
   justify-content: space-between;
-  background-color: #689cd2;
+  background: linear-gradient(90deg, #776BCC, #C7C5F4);
   padding: 10px;
   font-family: 'Times New Roman', Times, serif;
 }

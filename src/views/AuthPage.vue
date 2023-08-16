@@ -26,12 +26,12 @@
           </div>
 
           <button class="button login__submit">
-            <span class="button__text">{{ buttonText }}</span>
+            <span class="button__text">Войти</span>
             <i class="button__icon fas fa-chevron-right"></i>
           </button>				
         </form>
         <div class="social-login">
-          <h3>UmbrellaPix</h3>
+          <h3>UmbrellaPix©</h3>
         </div>
       </div>
       <div class="screen__background">
@@ -51,8 +51,6 @@ import { defineComponent } from 'vue';
 export default defineComponent({
   name: 'AuthPage',
 
-  components: {
-  },
 
 });  
 </script>
@@ -68,8 +66,7 @@ body {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
-  padding-left: 25%;
+	padding-top: 6vh;
 }
 
 .screen {		
