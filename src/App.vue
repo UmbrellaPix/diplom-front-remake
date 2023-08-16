@@ -4,26 +4,26 @@
       <div class="header_item header_logo">
         UmbrellaPix©
       </div>
-      <div class="header_item header_button">
-        <router-link to="/create-task">Добавить задачу</router-link>
+        <div v-if="auth === 'true'" class="header_item header_button">
+          <router-link to="/create-task">Добавить задачу</router-link>
+        </div>
+        <div v-if="auth === 'true'" class="header_item header_button">
+          <router-link to="/my-tasks">Задачи на выполнение</router-link>
+        </div>
+        <div v-if="auth === 'true'" class="header_item header_button">
+          <router-link to="/completed-tasks">Выполненные задачи</router-link>
+        </div>
+        <div v-if="auth === 'true'" class="header_item header_button">
+          <router-link to="/history-created-tasks">История созданных задач</router-link>
+        </div>
       </div>
-      <div class="header_item header_button">
-        <router-link to="/my-tasks">Задачи на выполнение</router-link>
-      </div>
-      <div class="header_item header_button">
-        <router-link to="/completed-tasks">Выполненные задачи</router-link>
-      </div>
-      <div class="header_item header_button">
-        <router-link to="/history-created-tasks">История созданных задач</router-link>
-      </div>
-    </div>
-    <div class="header_section">
-      <div class="header_item header_button">
-        <SettingsForm />
-      </div>
-      <div class="header_item header_button">
-        <router-link to="#">Выйти</router-link>
-      </div>
+      <div class="header_section">
+        <div class="header_item header_button">
+          <SettingsForm />
+        </div>
+        <div v-if="auth === 'true'" class="header_item header_button">
+          <router-link to="#">Выйти</router-link>
+        </div>
     </div>
   </div>
   <div class="page">
@@ -31,8 +31,29 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import SettingsForm from './components/SettingsForm.vue'
+import api from './api/index'
+
+export default {
+  components:{
+    SettingsForm,
+  },
+  data () {
+      return {
+        auth:'false'
+      }
+  },
+  methods: {
+    getAuth: async function() {
+        this.$router.push({ name: "AuthPage"})
+        console.log(await api.auth.signIn({'as':'as'}));
+      }
+  },
+  mounted() {
+    this.getAuth()
+  },
+}
 
 
 </script>
