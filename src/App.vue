@@ -4,16 +4,16 @@
       <div class="header_item header_logo">
         UmbrellaPix©
       </div>
-        <div v-if="auth === 'true'" class="header_item header_button">
+        <div v-if="getAuth === true" class="header_item header_button">
           <router-link to="/create-task">Добавить задачу</router-link>
         </div>
-        <div v-if="auth === 'true'" class="header_item header_button">
+        <div v-if="getAuth === true" class="header_item header_button">
           <router-link to="/my-tasks">Задачи на выполнение</router-link>
         </div>
-        <div v-if="auth === 'true'" class="header_item header_button">
+        <div v-if="getAuth === true" class="header_item header_button">
           <router-link to="/completed-tasks">Выполненные задачи</router-link>
         </div>
-        <div v-if="auth === 'true'" class="header_item header_button">
+        <div v-if="getAuth === true" class="header_item header_button">
           <router-link to="/history-created-tasks">История созданных задач</router-link>
         </div>
       </div>
@@ -21,8 +21,8 @@
         <div class="header_item header_button">
           <SettingsForm />
         </div>
-        <div v-if="auth === 'true'" class="header_item header_button">
-          <router-link to="#">Выйти</router-link>
+        <div v-if="getAuth === true" class="header_item header_button">
+          <button v-on:click="logOut">Выйти</button>
         </div>
     </div>
   </div>
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapGetters  } from 'vuex';
 import SettingsForm from './components/SettingsForm.vue'
 import api from './api/index'
 
@@ -39,28 +40,36 @@ export default {
   components:{
     SettingsForm,
   },
-  data () {
-      return {
-        auth:'false'
-      }
+  computed: {
+    ...mapState(['auth']),
+    ...mapGetters(['getAuth'])
   },
   methods: {
-    getAuth: async function() {
+    ...mapMutations(['setAuth']),
+
+    getAuthRequest: async function() {
         const token = localStorage.getItem('token');
         if (token == null){
-          this.auth = false
+          this.setAuth(false)
           this.$router.push({ name: "AuthPage"})
 
-        } else if (api.tokenAuth(token) != 'true'){
-          this.auth = false
+        } else if (api.auth.tokenAuth(token) === 'false'){
+          this.setAuth(false)
           this.$router.push({ name: "AuthPage"})
+
         } else {
-          this.auth = true
+          this.setAuth(true)
         }
+      },
+
+      logOut(){
+        this.$router.push({ name: "AuthPage"})
+        this.setAuth(false)
+        localStorage.clear()
       }
   },
   mounted() {
-    this.getAuth()
+    this.getAuthRequest()
   },
 }
 

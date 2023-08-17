@@ -2,7 +2,7 @@
   <div class="container">
     <div class="screen">
       <div class="screen__content">
-        <form class="login" @submit.prevent="auth_member({url})">
+        <form class="login" @submit.prevent="getLoginRequest">
 
           <div class="login__field">
             <i class="login__icon fas fa-user"></i>
@@ -12,19 +12,6 @@
             <i class="login__icon fas fa-lock"></i>
             <input type="password" class="login__input" id="password" placeholder="Пароль">
           </div>
-          <div v-if="url == 'registration/'" class="login__field">
-            <i class="login__icon fas fa-lock"></i>
-            <input type="text" class="login__input" id="firstName" placeholder="Имя">
-          </div>
-          <div v-if="url == 'registration/'" class="login__field">
-            <i class="login__icon fas fa-lock"></i>
-            <input type="text" class="login__input" id="lastName" placeholder="Фамилия">
-          </div>
-          <div v-if="url == 'registration/'" class="login__field">
-            <i class="login__icon fas fa-lock"></i>
-            <input type="text" class="login__input" id="age" placeholder="Возраст">
-          </div>
-
           <button class="button login__submit">
             <span class="button__text">Войти</span>
             <i class="button__icon fas fa-chevron-right"></i>
@@ -45,14 +32,31 @@
 </template>
 
 <script>
-export default ({
-	name: 'AuthPage',
-	data(){
-		return {
+import { mapState, mapMutations, mapGetters  } from 'vuex';
+import api from '../api/index'
 
+export default {
+name: 'AuthPage',
+computed: {
+	...mapState(['auth']),
+	...mapGetters(['getAuth'])
+},
+methods: {
+	...mapMutations(['setAuth']),
+	async getLoginRequest(){
+		let login = document.getElementById('login').value
+		let password = document.getElementById('password').value
+		let token = await api.auth.signIn(login, password)
+		if (token != null){
+			this.setAuth(true)
+			localStorage.setItem("token", token)
 		}
 	}
-});  
+},
+mounted() {
+
+},
+}
 </script>
 
 <style>
