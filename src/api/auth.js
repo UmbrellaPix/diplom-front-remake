@@ -1,14 +1,22 @@
 export default function(instance) {
     return {
-        async signIn(payload){
-            var result = await instance.post('auth', payload)
+        async signIn(data){
+            var result = await instance.post('auth', data)
             return result.data
         },
-        signUp(payload){
-            return instance.get('test', payload)
+        signUp(data){
+            return instance.get('test', data)
         },
         logOut(){
             return instance.get('test')
+        },
+        async tokenAuth(token){
+            var response = await instance.get('auth_token', {
+                headers: {
+                    Authorization: token
+                }
+            })
+            return response.headers.authorization
         }
     }
 }

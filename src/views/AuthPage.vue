@@ -45,14 +45,13 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+export default ({
+	name: 'AuthPage',
+	data(){
+		return {
 
-
-export default defineComponent({
-  name: 'AuthPage',
-
-	
-
+		}
+	}
 });  
 </script>
 

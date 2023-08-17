@@ -46,8 +46,17 @@ export default {
   },
   methods: {
     getAuth: async function() {
-        this.$router.push({ name: "AuthPage"})
-        console.log(await api.auth.signIn({'as':'as'}));
+        const token = localStorage.getItem('token');
+        if (token == null){
+          this.auth = false
+          this.$router.push({ name: "AuthPage"})
+
+        } else if (api.tokenAuth(token) != 'true'){
+          this.auth = false
+          this.$router.push({ name: "AuthPage"})
+        } else {
+          this.auth = true
+        }
       }
   },
   mounted() {
