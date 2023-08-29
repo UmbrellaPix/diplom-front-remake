@@ -33,38 +33,47 @@
 
 <script>
 import { mapState, mapMutations, mapGetters  } from 'vuex';
+import { defineComponent } from 'vue';
 import api from '../api/index'
 
-export default {
+export default defineComponent({
 name: 'AuthPage',
-computed: {
-	...mapState(['auth']),
-	...mapGetters(['getAuth'])
+data: ()=>{
+	return {
+		name: "Авторизация"
+	}
 },
-methods: {
-	...mapMutations(['setAuth']),
+computed: {
+    ...mapState(['auth']),
+    ...mapGetters(['getAuth']),
+  },
+  methods: {
+    ...mapMutations(['setAuth', 'setDrawer', 'setPageName']),
+	
 	async getLoginRequest(){
-		let login = document.getElementById('login').value
-		let password = document.getElementById('password').value
-		let token = await api.auth.signIn(login, password)
+		let token = await api.auth.signIn(
+			document.getElementById('login').value, 
+			document.getElementById('password').value
+			)
 		if (token != null){
 			this.setAuth(true)
+			this.setDrawer(true)
 			localStorage.setItem("token", token)
+			this.$router.replace(({ name: "MyTasks"}))
 		}
+	},
+	init(){
+		this.setPageName(this.name)
 	}
 },
 mounted() {
-
-},
-}
+	this.init()
+  },
+})
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-
-body {
-	background: linear-gradient(90deg, #C7C5F4, #776BCC);		
-}
 
 .container {
 	display: flex;
