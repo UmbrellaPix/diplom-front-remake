@@ -1,97 +1,78 @@
 <template>
-    <v-form v-model="valid">
+  <v-form>
     <v-container>
-
       <v-row>
-        <v-col
-          cols="12"
-          md="4"
-        >
-          <v-text-field
-            v-model="firstname"
-            :rules="nameRules"
-            :counter="10"
-            label="Заголовок"
-            required
-            hide-details
-          ></v-text-field>
-        </v-col>
-        <v-col
-        >
-          <v-autocomplete
-            v-model="friends"
-            :disabled="isUpdating"
-            :items="people"
-            chips
-            closable-chips
+        <v-col>
+          <v-text-field :counter="10" label="Заголовок" required hide-details variant="outlined"></v-text-field>
+          <v-autocomplete 
+            v-model="friends" 
+            :items="people" 
+            chips closable-chips 
             color="blue-grey-lighten-2"
-            item-title="name"
-            item-value="name"
+            item-title="name" 
+            item-value="name" 
             label="Исполнитель"
-            multiple
-          >
+            multiple variant="outlined">
             <template v-slot:chip="{ props, item }">
-              <v-chip
-                v-bind="props"
-                :prepend-avatar="item.raw.avatar"
-                :text="item.raw.name"
-              ></v-chip>
+              <v-chip v-bind="props" :prepend-avatar="item.raw.avatar" :text="item.raw.name"></v-chip>
             </template>
 
             <template v-slot:item="{ props, item }">
-              <v-list-item
-                v-bind="props"
-                :prepend-avatar="item?.raw?.avatar"
-                :title="item?.raw?.name"
-                :subtitle="item?.raw?.group"
-              ></v-list-item>
+              <v-list-item v-bind="props" :prepend-avatar="item?.raw?.avatar" :title="item?.raw?.name"
+                :subtitle="item?.raw?.group"></v-list-item>
             </template>
           </v-autocomplete>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col
-        cols="12"
-        md="4">
-          <v-date-picker
-          v-model="selectedDate"
-          :title="textForSelectDate">
-          </v-date-picker>
-        </v-col>
-        <v-col>
-          <v-textarea
-            v-model="title"
-            counter
-            label="Описание"
-            maxlength="120"
-            single-line
-            >
-          </v-textarea>
+          <v-text-field
+          label="Дедлайн"
+          variant="outlined"
+          type="date"
+          suffix="date"
+        >
+      </v-text-field>
+      
         </v-col>
       </v-row>
     </v-container>
+    <v-layout class="overflow-visible" style="
+        height: 56px;
+        position:fixed;
+        bottom:0;
+        left:0;
+        width:100%;">
+      <v-bottom-navigation color="primary" horizontal>
+        <v-btn>
+          <v-icon>mdi-history</v-icon>
+
+          Очистить форму
+        </v-btn>
+
+        <v-btn>
+          <v-icon>mdi-content-save-all</v-icon>
+
+          Создать задачу
+        </v-btn>
+      </v-bottom-navigation>
+    </v-layout>
   </v-form>
 </template>
 
 <script>
 import { mapMutations } from 'vuex';
 import { defineComponent } from 'vue';
-import { VDatePicker } from 'vuetify/labs/VDatePicker'
+
 
 export default defineComponent({
   name: 'CreateTaskPage',
-  components:{
-    VDatePicker,
+  components: {
   },
   data: () => {
     const srcs = {
-        1: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-        2: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-        3: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-        4: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-        5: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
-      }
+      1: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
+      2: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
+      3: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
+      4: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
+      5: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
+    }
     return {
       name: "Создать задачу",
       selectedDate: null,
@@ -113,6 +94,9 @@ export default defineComponent({
     ...mapMutations(['setPageName']),
     init() {
       this.setPageName(this.name)
+    },
+    test(){
+      console.log('click!');
     }
   },
   mounted() {
@@ -120,3 +104,5 @@ export default defineComponent({
   },
 })
 </script>
+
+<style></style>

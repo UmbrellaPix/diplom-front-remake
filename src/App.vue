@@ -1,6 +1,8 @@
 <template>
   <v-layout class="rounded rounded-md">
-    <v-navigation-drawer v-model="getDrawer" class="nav-bar">
+    <v-navigation-drawer v-model="getDrawer" 
+    class="nav-bar"
+    @click.stop="setDrawer(!drawer)">
       <v-list density="compact">
         <v-list-subheader>СТРАНИЦЫ</v-list-subheader>
 
@@ -54,6 +56,7 @@ export default {
         { text: 'Мои поручения', icon: 'mdi-list-status', page:'MyTasks' },
         { text: 'История', icon: 'mdi-format-list-bulleted-type', page:'HistoryCreatedTasks' },
         { text: 'Выполненные задачи', icon: 'mdi-check-all', page:'CompletedTasksPage' },
+        { text: 'Создать аккаунт', icon: 'mdi-account-multiple-plus-outline', page:'CreateAccount' },
       ],
     }),
   computed: {
@@ -63,7 +66,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setAuth', 'setDrawer']),
-
     getAuthRequest: async function() {
         const token = localStorage.getItem('token');
         if (token == null){
@@ -71,13 +73,12 @@ export default {
           this.setDrawer(false)
           this.$router.push({ name: "AuthPage"})
 
-        } else if (api.auth.tokenAuth(token) === 'false'){
+        } else if (await api.auth.tokenAuth(token) === 'false'){
           this.setAuth(false)
           this.setDrawer(false)
           this.$router.push({ name: "AuthPage"})
 
         } else {
-          this.$router.replace(({ name: "MyTasks"}))
           this.setAuth(true)
           this.setDrawer(true)
         }

@@ -3,6 +3,7 @@ import AuthPage from '../views/AuthPage.vue'
 import CreateTaskPage from '../views/CreateTaskPage.vue'
 import MyTasksPage from '../views/MyTasksPage.vue'
 import HistoryCreatedTasksPage from '../views/HistoryCreatedTasksPage.vue'
+import CreateAccountPage from '../views/CreateAccountPage'
 
 const routes = [
   {
@@ -29,6 +30,11 @@ const routes = [
     path: '/history-created-tasks',
     name: 'HistoryCreatedTasks',
     component: HistoryCreatedTasksPage
+  },
+  {
+    path: '/create-account',
+    name: 'CreateAccount',
+    component: CreateAccountPage
   }
 ]
 
